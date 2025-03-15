@@ -1,5 +1,5 @@
 /**
- * Server-side API routes
+ * Server-side API routes with robust error handling
  */
 const express = require('express');
 const router = express.Router();
@@ -10,16 +10,47 @@ const sampleData = require('../src/sampleData').sampleData;
 
 /**
  * Helper to respond with error
+ * @param {Response} res - Express response object
+ * @param {Error} error - Error object
+ * @param {number} status - HTTP status code
  */
-const handleError = (res, error) => {
-  console.error('API Error:', error);
-  res.status(500).json({ error: { message: error.message || 'Internal server error' } });
+const handleError = (res, error, status = 500) => {
+  // Log the error details
+  console.error('API Error:', {
+    message: error.message,
+    stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+    status: error.status || status
+  });
+  
+  // Determine appropriate status code
+  const statusCode = error.status || status;
+  
+  // Send error response
+  res.status(statusCode).json({ 
+    error: { 
+      message: error.message || 'Internal server error',
+      code: error.code,
+      // Only include detailed info in development
+      details: process.env.NODE_ENV === 'development' ? error.data : undefined
+    } 
+  });
+};
+
+/**
+ * Middleware to handle async route handlers
+ * @param {Function} fn - Async route handler
+ * @returns {Function} Express middleware
+ */
+const asyncHandler = (fn) => (req, res, next) => {
+  Promise.resolve(fn(req, res, next)).catch((error) => {
+    handleError(res, error);
+  });
 };
 
 /**
  * Get all listings/properties
  */
-router.get('/api/listings', async (req, res) => {
+router.get('/api/listings', asyncHandler(async (req, res) => {
   try {
     const response = await hostawayApi.getListings(req.query);
     res.json(response);
@@ -40,12 +71,107 @@ router.get('/api/listings', async (req, res) => {
       }
     });
   }
+}));
+
+/**
+ * Get calendar for a listing
+ */
+router.get('/api/calendar', asyncHandler(async (req, res) => {
+  const { listingId, startDate, endDate } = req.query;
+  
+  if (!listingId || !startDate || !endDate) {
+    return res.status(400).json({ 
+      error: { message: 'Missing required parameters: listingId, startDate, endDate' }
+    });
+  }
+  
+  try {
+    const response = await hostawayApi.getCalendar(listingId, startDate, endDate);
+    res.json(response);
+  } catch (error) {
+    // For calendar, we don't have a good sample data fallback
+    // so we return an appropriate error
+    handleError(res, error, error.status || 500);
+  }
+}));
+
+/**
+ * Health check endpoint
+ */
+router.get('/health', (req, res) => {
+  const healthData = {
+    status: 'UP',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    environment: process.env.NODE_ENV || 'development'
+  };
+  
+  res.json(healthData);
 });
+
+// Handle 404 for undefined API routes
+router.use('/api/*', (req, res) => {
+  res.status(404).json({
+    error: {
+      message: `API endpoint not found: ${req.originalUrl}`,
+      status: 404
+    }
+  });
+});
+
+// Helper function
+function calculateNights(checkIn, checkOut) {
+  const start = new Date(checkIn);
+  const end = new Date(checkOut);
+  const diffTime = Math.abs(end - start);
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
+
+module.exports = router;
+
+/**
+ * Get a single reservation
+ */
+router.get('/api/reservations/:id', asyncHandler(async (req, res) => {
+  try {
+    const response = await hostawayApi.getReservationById(req.params.id);
+    res.json(response);
+  } catch (error) {
+    console.warn('Falling back to sample data for single reservation');
+    // Fallback to sample data
+    const reservation = sampleData.reservations.find(r => r.id === req.params.id);
+    
+    if (reservation) {
+      const nights = calculateNights(reservation.checkIn, reservation.checkOut);
+      
+      res.json({ 
+        result: {
+          id: reservation.id,
+          listingId: reservation.propertyId,
+          guestName: reservation.guestName,
+          checkInDate: reservation.checkIn,
+          checkOutDate: reservation.checkOut,
+          basePrice: reservation.pricePerNight,
+          cleaningFee: reservation.cleaningFee,
+          amenitiesFee: reservation.amenities,
+          extraFees: reservation.extraFees,
+          totalPrice: reservation.pricePerNight * nights + 
+                     reservation.cleaningFee + reservation.amenities + reservation.extraFees,
+          source: reservation.bookingSource,
+          status: reservation.status
+        }
+      });
+    } else {
+      res.status(404).json({ error: { message: 'Reservation not found' } });
+    }
+  }
+}));
 
 /**
  * Get a single listing
  */
-router.get('/api/listings/:id', async (req, res) => {
+router.get('/api/listings/:id', asyncHandler(async (req, res) => {
   try {
     const response = await hostawayApi.getListingById(req.params.id);
     res.json(response);
@@ -60,12 +186,12 @@ router.get('/api/listings/:id', async (req, res) => {
       res.status(404).json({ error: { message: 'Listing not found' } });
     }
   }
-});
+}));
 
 /**
  * Get all reservations
  */
-router.get('/api/reservations', async (req, res) => {
+router.get('/api/reservations', asyncHandler(async (req, res) => {
   try {
     let response;
     
@@ -130,6 +256,18 @@ router.get('/api/reservations', async (req, res) => {
       );
     }
     
+    // Apply current status filters
+    if (req.query.arrivalEndDate && req.query.departureStartDate) {
+      const arrivalEnd = new Date(req.query.arrivalEndDate);
+      const departureStart = new Date(req.query.departureStartDate);
+      
+      filteredReservations = filteredReservations.filter(r => {
+        const checkIn = new Date(r.checkInDate);
+        const checkOut = new Date(r.checkOutDate);
+        return checkIn <= arrivalEnd && checkOut >= departureStart;
+      });
+    }
+    
     // Apply status filter
     if (req.query.status) {
       filteredReservations = filteredReservations.filter(r => 
@@ -163,71 +301,4 @@ router.get('/api/reservations', async (req, res) => {
       }
     });
   }
-});
-
-/**
- * Get a single reservation
- */
-router.get('/api/reservations/:id', async (req, res) => {
-  try {
-    const response = await hostawayApi.getReservationById(req.params.id);
-    res.json(response);
-  } catch (error) {
-    console.warn('Falling back to sample data for single reservation');
-    // Fallback to sample data
-    const reservation = sampleData.reservations.find(r => r.id === req.params.id);
-    
-    if (reservation) {
-      const nights = calculateNights(reservation.checkIn, reservation.checkOut);
-      
-      res.json({ 
-        result: {
-          id: reservation.id,
-          listingId: reservation.propertyId,
-          guestName: reservation.guestName,
-          checkInDate: reservation.checkIn,
-          checkOutDate: reservation.checkOut,
-          basePrice: reservation.pricePerNight,
-          cleaningFee: reservation.cleaningFee,
-          amenitiesFee: reservation.amenities,
-          extraFees: reservation.extraFees,
-          totalPrice: reservation.pricePerNight * nights + 
-                     reservation.cleaningFee + reservation.amenities + reservation.extraFees,
-          source: reservation.bookingSource,
-          status: reservation.status
-        }
-      });
-    } else {
-      res.status(404).json({ error: { message: 'Reservation not found' } });
-    }
-  }
-});
-
-/**
- * Get calendar for a listing
- */
-router.get('/api/calendar', async (req, res) => {
-  const { listingId, startDate, endDate } = req.query;
-  
-  if (!listingId || !startDate || !endDate) {
-    return res.status(400).json({ 
-      error: { message: 'Missing required parameters: listingId, startDate, endDate' }
-    });
-  }
-  
-  try {
-    const response = await hostawayApi.getCalendar(listingId, startDate, endDate);
-    res.json(response);
-  } catch (error) {
-    handleError(res, error);
-  }
-});
-
-/**
- * Health check endpoint
- */
-router.get('/health', (req, res) => {
-  res.json({ status: 'UP', timestamp: new Date().toISOString() });
-});
-
-module.exports = router;
+}));
