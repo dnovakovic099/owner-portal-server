@@ -302,3 +302,43 @@ router.get('/api/reservations', asyncHandler(async (req, res) => {
     });
   }
 }));
+
+/**
+ * Get consolidated financial report
+ */
+router.post('/api/finance/report/consolidated', asyncHandler(async (req, res) => {
+  try {
+    // Convert JSON body to form data for the Hostaway API
+    const params = new URLSearchParams();
+    
+    // Add all parameters from request body to form data
+    for (const [key, value] of Object.entries(req.body)) {
+      params.append(key, value);
+    }
+    
+    // Get auth token
+    const token = await getAuthToken();
+    
+    // Make request to Hostaway API
+    const response = await fetch(`${HOSTAWAY_BASE_URL}/finance/report/consolidated`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      body: params
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error?.message || `API request failed with status ${response.status}`);
+    }
+    
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching consolidated financial report:', error);
+    handleError(res, error);
+  }
+}));

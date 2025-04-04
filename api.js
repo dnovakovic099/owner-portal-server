@@ -315,7 +315,36 @@ const hostawayApi = {
       console.log('Make sure the server is running on http://localhost:3001');
       return false;
     }
-  }
+  },
+
+ getFinancialReport: async (params = {}) => {
+   try {
+     const response = await fetch(`${API_BASE_URL}/finance/report/consolidated`, {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+         'Accept': 'application/json'
+       },
+       body: JSON.stringify(params)
+     });
+     
+     if (!response.ok) {
+       const errorData = await response.json().catch(() => ({}));
+       throw new Error(errorData.error?.message || `API request failed with status ${response.status}`);
+     }
+     
+     return await response.json();
+   } catch (error) {
+     console.error('Error fetching financial report:', error);
+     // Return empty results instead of throwing
+     return { 
+       result: {
+         reservations: [] 
+       }
+     };
+   }
+ }
 };
+
 
 module.exports = hostawayApi;
