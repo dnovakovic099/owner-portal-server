@@ -107,6 +107,7 @@ async function makeApiRequest(method, endpoint, queryParams = {}, data = null) {
     
     const url = `${HOSTAWAY_BASE_URL}${endpoint}${queryString}`;
     console.log(`Making API request: ${method} ${url}`);
+    console.log({data})
     
     // Make request to Hostaway API
     const response = await axios({
@@ -274,6 +275,68 @@ app.get('/api/reservations', async (req, res, next) => {
     }
   }
 });
+
+/**
+ * Get consolidated financial report
+ */
+app.post('/api/finance/report/consolidated', async (req, res, next) => {
+  try {
+    // Extract parameters from request body
+    const { 
+      listingMapIds, // Can be an array or comma-separated string
+      fromDate,
+      toDate,
+      dateType
+    } = req.body;
+    
+    // Prepare request body
+    const requestBody = {
+      statuses: ['confirmed']
+    };
+    
+    // Handle listingMapIds parameter - can be array or string
+    if (listingMapIds) {
+      if (Array.isArray(listingMapIds)) {
+        requestBody.listingMapIds = listingMapIds;
+      } else if (typeof listingMapIds === 'string') {
+        // If it's a comma-separated string, split it
+        requestBody.listingMapIds = listingMapIds.split(',').map(id => id.trim());
+      } else {
+        // If it's a single value
+        requestBody.listingMapIds = [listingMapIds];
+      }
+    }
+    
+    // Format dates to Y-m-d
+    const formatDate = (dateInput) => {
+      if (!dateInput) return null;
+      const date = new Date(dateInput);
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        throw new Error(`Invalid date input: ${dateInput}`);
+      }
+      // Format to YYYY-MM-DD
+      return date.toISOString().split('T')[0];
+    };
+    
+    // Add formatted dates
+    if (fromDate) requestBody.fromDate = formatDate(fromDate);
+    if (toDate) requestBody.toDate = formatDate(toDate);
+    if (dateType) requestBody.dateType = dateType;
+    
+    // Log the request body for debugging
+    console.log('Consolidated Report Request Body:', JSON.stringify(requestBody, null, 2));
+    
+    // Make request using makeApiRequest with JSON body
+    const data = await makeApiRequest('POST', '/finance/report/consolidated', {}, requestBody);
+    
+    res.json(data);
+  } catch (error) {
+    // Error handling is now part of makeApiRequest
+    next(error);
+  }
+});
+
 
 // Filter reservations helper
 function filterReservations(reservations, query) {

@@ -307,6 +307,7 @@ router.get('/api/reservations', asyncHandler(async (req, res) => {
  * Get consolidated financial report
  */
 router.post('/api/finance/report/consolidated', asyncHandler(async (req, res) => {
+  console.log("TEST")
   try {
     // Convert JSON body to form data for the Hostaway API
     const params = new URLSearchParams();
