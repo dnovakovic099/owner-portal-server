@@ -1,0 +1,20 @@
+[
+    {
+      "id": 1,
+      "email": "dnovakovic21@gmail.com",
+      "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "passwordSalt": "demoSalt123",
+      "name": "Property Owner",
+      "role": "owner",
+      "userId": "1"
+    },
+    {
+      "id": 2,
+      "email": "admin@example.com",
+      "passwordHash": "f55fbeb7f47a955e5eac6ccdcfe7b8f316d84f99d0574e5efc02ff5db5a57077",
+      "passwordSalt": "adminSalt456",
+      "name": "Admin User",
+      "role": "admin",
+      "userId": "admin-789"
+    }
+  ]
