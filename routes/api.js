@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const { authenticateToken } = require('../middleware/auth');
+const config = require("../data/config.json");
 
 // Hostaway API configuration
 const HOSTAWAY_BASE_URL = 'https://api.hostaway.com/v1';
-const HOSTAWAY_CLIENT_ID = process.env.HOSTAWAY_CLIENT_ID || '64614';
-const HOSTAWAY_CLIENT_SECRET = process.env.HOSTAWAY_CLIENT_SECRET || 'b637e4a97f831428501b0519783608b3a3af24d40ad2fba8281d9a131802e036';
+const HOSTAWAY_CLIENT_ID = config.HOSTAWAY_CLIENT_ID;
+const HOSTAWAY_CLIENT_SECRET = config.HOSTAWAY_CLIENT_SECRET;
 
 // Authentication token cache
 let authToken = null;
@@ -359,6 +360,7 @@ router.post('/finance/report/consolidated', async (req, res, next) => {
     if (toDate) requestBody.toDate = formatDate(toDate);
     if (dateType) requestBody.dateType = dateType;
     
+    console.log({requestBody})
     
     // Make request using makeApiRequest with JSON body
     const data = await makeApiRequest('POST', '/finance/report/consolidated', {}, requestBody);
