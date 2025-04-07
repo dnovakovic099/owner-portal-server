@@ -92,7 +92,7 @@ async function makeApiRequest(method, endpoint, queryParams = {}, data = null, u
       timeout: 30000 // 30 second timeout
     });
 
-    console.log({response: response && response.data.result.length})
+    console.log({response: response})
     
     return response.data;
   } catch (error) {
