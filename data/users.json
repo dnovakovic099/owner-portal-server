@@ -1,20 +1,865 @@
 [
-    {
-      "id": 1,
-      "email": "dnovakovic21@gmail.com",
-      "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-      "passwordSalt": "demoSalt123",
-      "name": "Property Owner",
-      "role": "owner",
-      "userId": "44323"
-    },
-    {
-      "id": 2,
-      "email": "admin@example.com",
-      "passwordHash": "f55fbeb7f47a955e5eac6ccdcfe7b8f316d84f99d0574e5efc02ff5db5a57077",
-      "passwordSalt": "adminSalt456",
-      "name": "Admin User",
-      "role": "admin",
-      "userId": "admin-789"
-    }
-  ]
+  {
+    "id": 1,
+    "email": "dnovakovic21@gmail.com",
+    "passwordHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "passwordSalt": "demoSalt123",
+    "name": "Property Owner",
+    "role": "owner",
+    "userId": "44323"
+  },
+  {
+    "id": 2,
+    "email": "admin@example.com",
+    "passwordHash": "f55fbeb7f47a955e5eac6ccdcfe7b8f316d84f99d0574e5efc02ff5db5a57077",
+    "passwordSalt": "adminSalt456",
+    "name": "Admin User",
+    "role": "admin",
+    "userId": "admin-789"
+  },
+  {
+    "id": 3,
+    "email": "dirose9336@gmail.com",
+    "passwordHash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "passwordSalt": "salt123diana",
+    "name": "Diana",
+    "role": "owner",
+    "userId": "881048"
+  },
+  {
+    "id": 4,
+    "email": "sammy.abdul@gmail.com",
+    "passwordHash": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f",
+    "passwordSalt": "salt123sammy",
+    "name": "Sammy Abdul",
+    "role": "owner",
+    "userId": "882045"
+  },
+  {
+    "id": 5,
+    "email": "genny199117@yahoo.com",
+    "passwordHash": "cf80cd8aed482d5d1527d7dc72fceff84e6326592848447d2dc0b0e87dfc9a90",
+    "passwordSalt": "salt123genny",
+    "name": "Genny",
+    "role": "owner",
+    "userId": "910529"
+  },
+  {
+    "id": 6,
+    "email": "anastasiadordi@gmail.com",
+    "passwordHash": "72ab8af56bddab33b269c5964b26d4ad9f0d4be0e4c4d7bf9871cf32a48e55c6",
+    "passwordSalt": "salt123ana",
+    "name": "Ana",
+    "role": "owner",
+    "userId": "927655"
+  },
+  {
+    "id": 7,
+    "email": "receipts@luxurylodgingstr.com",
+    "passwordHash": "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1",
+    "passwordSalt": "salt123receipts",
+    "name": "Failed Payments",
+    "role": "admin",
+    "userId": "927807"
+  },
+  {
+    "id": 8,
+    "email": "luxurylodgingteam@gmail.com",
+    "passwordHash": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+    "passwordSalt": "salt123team",
+    "name": "Kaz Ron",
+    "role": "owner",
+    "userId": "932208"
+  },
+  {
+    "id": 9,
+    "email": "coboustead@hotmail.com",
+    "passwordHash": "20f3765880a5c269b747e1e906054a4b4a3a991259f1e16b5dde4742cec2319a",
+    "passwordSalt": "salt123charles",
+    "name": "Charles Boustead",
+    "role": "owner",
+    "userId": "941882"
+  },
+  {
+    "id": 10,
+    "email": "thedgllc@gmail.com",
+    "passwordHash": "9b8769a4a742959a2d0298c36fb70623f2dfacda8436237df08d8dfd5b37374c",
+    "passwordSalt": "salt123jd",
+    "name": "JD",
+    "role": "owner",
+    "userId": "942605"
+  },
+  {
+    "id": 11,
+    "email": "shizz1228@gmail.com",
+    "passwordHash": "9400f1b21cb527d7fa3d3eabba93557a18ebe7a2ca4e471cfe5e4c5b4ca7f767",
+    "passwordSalt": "salt123shaun",
+    "name": "Shaun",
+    "role": "owner",
+    "userId": "943469"
+  },
+  {
+    "id": 12,
+    "email": "rivercitysweepers@gmail.com",
+    "passwordHash": "87d9bb400f0e3aa4499158c877b568bd5308b0e5f18b36e7f679f5161b45dd9d",
+    "passwordSalt": "salt123sarah",
+    "name": "Sarah",
+    "role": "owner",
+    "userId": "943479"
+  },
+  {
+    "id": 13,
+    "email": "Abigails9175@gmail.com",
+    "passwordHash": "82e35a63ceba37e9bd10cfb2e7322ae886d35c4f0e2d3b152927a61b3fa457ec",
+    "passwordSalt": "salt123abby",
+    "name": "Abby",
+    "role": "owner",
+    "userId": "943669"
+  },
+  {
+    "id": 14,
+    "email": "Bnbeeshosting@gmail.com",
+    "passwordHash": "cb4e5208b4cd87268b208e49452ed6e89a68e0aba64468c25833c0ef77cc6789",
+    "passwordSalt": "salt123bnbees",
+    "name": "Bnbeeshosting",
+    "role": "owner",
+    "userId": "946443"
+  },
+  {
+    "id": 15,
+    "email": "bj8111@gmail.com",
+    "passwordHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "passwordSalt": "salt123robert",
+    "name": "Robert and Betty Gmeinder",
+    "role": "owner",
+    "userId": "947375"
+  },
+  {
+    "id": 16,
+    "email": "leahhardee@yahoo.com",
+    "passwordHash": "74c70984f592d8d93f03f34e4ca04deb9c9e3cbcc587bf6397983a1c3979baab",
+    "passwordSalt": "salt123leah",
+    "name": "Leah and Jeff Hardee",
+    "role": "owner",
+    "userId": "947465"
+  },
+  {
+    "id": 17,
+    "email": "johnfosterholcomb@gmail.com",
+    "passwordHash": "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3e8a485bae28f71b6df4df348",
+    "passwordSalt": "salt123daisy",
+    "name": "Daisy",
+    "role": "owner",
+    "userId": "947904"
+  },
+  {
+    "id": 18,
+    "email": "Gordon@NeufeldNW.com",
+    "passwordHash": "109f4b3c50d7b0df729d299bc6f8e9ef9066971f8da58bc172cd0c54e93b9f3b",
+    "passwordSalt": "salt123gordon",
+    "name": "Gordon",
+    "role": "owner",
+    "userId": "948596"
+  },
+  {
+    "id": 19,
+    "email": "ryot2005@gmail.com",
+    "passwordHash": "3a7bd3e2360a3d29eea436fcfb7e44c735d117c42d1c1835420b6b9942dd4f1b",
+    "passwordSalt": "salt123mike",
+    "name": "Mike and Erin Martin",
+    "role": "owner",
+    "userId": "948597"
+  },
+  {
+    "id": 20,
+    "email": "shawnshine941@gmail.com",
+    "passwordHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "passwordSalt": "salt123shawn",
+    "name": "Shawn",
+    "role": "owner",
+    "userId": "949432"
+  },
+  {
+    "id": 21,
+    "email": "briansolos81@gmail.com",
+    "passwordHash": "c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646",
+    "passwordSalt": "salt123brian",
+    "name": "Brian Solos",
+    "role": "owner",
+    "userId": "949584"
+  },
+  {
+    "id": 22,
+    "email": "Lmstoelting@yahoo.com",
+    "passwordHash": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+    "passwordSalt": "salt123lisa",
+    "name": "Lisa Stoelting",
+    "role": "owner",
+    "userId": "949673"
+  },
+  {
+    "id": 23,
+    "email": "Brian1283@icloud.com",
+    "passwordHash": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
+    "passwordSalt": "salt123bryan",
+    "name": "Bryan",
+    "role": "owner",
+    "userId": "950277"
+  },
+  {
+    "id": 24,
+    "email": "Mwells19@comcast.net",
+    "passwordHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "passwordSalt": "salt123matt",
+    "name": "Matt",
+    "role": "owner",
+    "userId": "950877"
+  },
+  {
+    "id": 25,
+    "email": "dwright3140@gmail.com",
+    "passwordHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+    "passwordSalt": "salt123donna",
+    "name": "Donna",
+    "role": "owner",
+    "userId": "952523"
+  },
+  {
+    "id": 26,
+    "email": "ferdinand@luxurylodgingpm.com",
+    "passwordHash": "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c",
+    "passwordSalt": "salt123ferdy",
+    "name": "Ferdy",
+    "role": "admin",
+    "userId": "952601"
+  },
+  {
+    "id": 27,
+    "email": "bolzcontracting@gmail.com",
+    "passwordHash": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
+    "passwordSalt": "salt123karl",
+    "name": "Karl Bolz",
+    "role": "owner",
+    "userId": "952898"
+  },
+  {
+    "id": 28,
+    "email": "ilianabolz@icloud.com",
+    "passwordHash": "4ec9599fc203d176a301536c2e091a19bc852759b255bd6818810a42c5fed14a",
+    "passwordSalt": "salt123iliana",
+    "name": "Iliana Bolz",
+    "role": "owner",
+    "userId": "952899"
+  },
+  {
+    "id": 29,
+    "email": "pamthroener@gmail.com",
+    "passwordHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "passwordSalt": "salt123pam",
+    "name": "Pam Throener",
+    "role": "owner",
+    "userId": "954574"
+  },
+  {
+    "id": 30,
+    "email": "Gretchengreydesign@gmail.com",
+    "passwordHash": "07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb64",
+    "passwordSalt": "salt123gretchen",
+    "name": "Gretchen Mendosa",
+    "role": "owner",
+    "userId": "954760"
+  },
+  {
+    "id": 31,
+    "email": "artur@ms-tax.org",
+    "passwordHash": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+    "passwordSalt": "salt123sergey",
+    "name": "Sergey Mangayan",
+    "role": "owner",
+    "userId": "955231"
+  },
+  {
+    "id": 32,
+    "email": "support@luxurylodgingpm.com",
+    "passwordHash": "3fdba35f04dc8c462986c992bcf875546257113072a909c162f7e470e581e278",
+    "passwordSalt": "salt123support",
+    "name": "Sample Owner",
+    "role": "owner",
+    "userId": "956428"
+  },
+  {
+    "id": 33,
+    "email": "bradley.osterman@gmail.com",
+    "passwordHash": "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+    "passwordSalt": "salt123bradley",
+    "name": "Bradley Osterman",
+    "role": "owner",
+    "userId": "958507"
+  },
+  {
+    "id": 34,
+    "email": "Rogcasey@verizon.net",
+    "passwordHash": "e629fa6598d732768f7c726b4b621285f9c3b85303900aa912017db7617d8bdb",
+    "passwordSalt": "salt123roger",
+    "name": "Roger & Dotty Casey",
+    "role": "owner",
+    "userId": "958556"
+  },
+  {
+    "id": 35,
+    "email": "forgottenheritagefarm@aol.com",
+    "passwordHash": "b0e869f9707a0ceb019795875f44b12d3447d855e093d08a127357bfce2b5f5c",
+    "passwordSalt": "salt123rodney",
+    "name": "Rodney Branham",
+    "role": "owner",
+    "userId": "958711"
+  },
+  {
+    "id": 36,
+    "email": "jerome.luxurylodging@gmail.com",
+    "passwordHash": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+    "passwordSalt": "salt123jerome",
+    "name": "Jerome",
+    "role": "admin",
+    "userId": "959331"
+  },
+  {
+    "id": 37,
+    "email": "monroesoha@gmail.com",
+    "passwordHash": "3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d",
+    "passwordSalt": "salt123catherine",
+    "name": "Catherine Clark",
+    "role": "owner",
+    "userId": "960155"
+  },
+  {
+    "id": 38,
+    "email": "sallynewton68@gmail.com",
+    "passwordHash": "2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6",
+    "passwordSalt": "salt123sally",
+    "name": "Sally",
+    "role": "owner",
+    "userId": "962265"
+  },
+  {
+    "id": 39,
+    "email": "Danielallen052855@gmail.com",
+    "passwordHash": "18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4",
+    "passwordSalt": "salt123daniel",
+    "name": "Daniel Allen",
+    "role": "owner",
+    "userId": "963061"
+  },
+  {
+    "id": 40,
+    "email": "Tedwbrown@icloud.com",
+    "passwordHash": "d3751d33f9cd5049c4af2b462735457e4d3baf130bcbb87f389e349fbaeb20b9",
+    "passwordSalt": "salt123ted",
+    "name": "Ted Brown",
+    "role": "owner",
+    "userId": "963634"
+  },
+  {
+    "id": 41,
+    "email": "household231@gmail.com",
+    "passwordHash": "fc1200c7a7aa52109d762a9f005b149abef01479a64be831f5703b72c7f5a98a",
+    "passwordSalt": "salt123dana",
+    "name": "Dana Day",
+    "role": "owner",
+    "userId": "963822"
+  },
+  {
+    "id": 42,
+    "email": "griscleaning123@gmail.com",
+    "passwordHash": "4672d8a3f36def0b5b163c7c6a1e0ccbf8e3201d2abd4da7d7d3b52102a2ccc9",
+    "passwordSalt": "salt123gricelda",
+    "name": "Gricelda",
+    "role": "owner",
+    "userId": "963991"
+  },
+  {
+    "id": 43,
+    "email": "jeffeugene44@gmail.com",
+    "passwordHash": "b9c950640e1b3740e98acb93e669c65766f6670dd1609ba91ff41052ba48c6f3",
+    "passwordSalt": "salt123jeffrey",
+    "name": "Jeffrey DeBoer",
+    "role": "owner",
+    "userId": "964349"
+  },
+  {
+    "id": 44,
+    "email": "jagdom2006@gmail.com",
+    "passwordHash": "a5bec56a2866c11989f6d9fae994fbc0921d2d01ef233a83b0fa5db36b59fd3b",
+    "passwordSalt": "salt123michael",
+    "name": "Michael Dominik",
+    "role": "owner",
+    "userId": "970814"
+  },
+  {
+    "id": 45,
+    "email": "Markbignell60@gmail.com",
+    "passwordHash": "44c4c69a54f58c6998cd44d6a0b3d0cc8dc35283e18cf6901a64a0da38e5b0f1",
+    "passwordSalt": "salt123mark",
+    "name": "Mark",
+    "role": "owner",
+    "userId": "971097"
+  },
+  {
+    "id": 46,
+    "email": "info@newsparkles.com",
+    "passwordHash": "0f1e9c8bf4de7d0adbb6151545628243e8856a9af4528e0455a3c311b2d7c196",
+    "passwordSalt": "salt123newsparkles",
+    "name": "New Sparkles",
+    "role": "owner",
+    "userId": "971100"
+  },
+  {
+    "id": 47,
+    "email": "almira.luxurylodging@gmail.com",
+    "passwordHash": "b295d117135a9763da282e7dae73a5ca7d3e5b13cc7f1dcf37f9a37795f8c80c",
+    "passwordSalt": "salt123almira",
+    "name": "Almira Ocon",
+    "role": "admin",
+    "userId": "972279"
+  },
+  {
+    "id": 48,
+    "email": "bryanderby@frontier.com",
+    "passwordHash": "2d8c2f6d978ca21712b5f6de36c9d31fa8e96a4fa5d8ff8b0188dfb9e7c171bb",
+    "passwordSalt": "salt123bryan",
+    "name": "Bryan",
+    "role": "owner",
+    "userId": "972593"
+  },
+  {
+    "id": 49,
+    "email": "jessicapadron24@gmail.com",
+    "passwordHash": "e56c648af45d87f2b2da18088703e03c3f38df3c1f51f83ea5eae1e2b2a3c46f",
+    "passwordSalt": "salt123jessica",
+    "name": "Jessica",
+    "role": "admin",
+    "userId": "972623"
+  },
+  {
+    "id": 50,
+    "email": "Gabby.luxurylodging@gmail.com",
+    "passwordHash": "02aa629c8b16cd17a44f3a0efec2feed43937abc79c6d46bd6b0b15a463e8a4c",
+    "passwordSalt": "salt123gabby",
+    "name": "Gabby Ceneta",
+    "role": "admin",
+    "userId": "972696"
+  },
+  {
+    "id": 51,
+    "email": "Jessica.luxurylodging@gmail.com",
+    "passwordHash": "ffd7a9e5ebca9c2941d6d486c6a0aac06b4588b8ec8cddc03e3e25d8c59a7a62",
+    "passwordSalt": "salt123jessica2",
+    "name": "JESSICA PADRON",
+    "role": "admin",
+    "userId": "972697"
+  },
+  {
+    "id": 52,
+    "email": "joe.luxurylodging@gmail.com",
+    "passwordHash": "0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c",
+    "passwordSalt": "salt123joe",
+    "name": "JOE BARTOLOME",
+    "role": "admin",
+    "userId": "972699"
+  },
+  {
+    "id": 53,
+    "email": "lumozu68@gmail.com",
+    "passwordHash": "9400f1b21cb527d7fa3d3eabba93557a18ebe7a2ca4e471cfe5e4c5b4ca7f767",
+    "passwordSalt": "salt123alonso",
+    "name": "Alonso",
+    "role": "owner",
+    "userId": "972807"
+  },
+  {
+    "id": 54,
+    "email": "tboakjr@comcast.net",
+    "passwordHash": "4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8",
+    "passwordSalt": "salt123thomas",
+    "name": "Thomas",
+    "role": "owner",
+    "userId": "973222"
+  },
+  {
+    "id": 55,
+    "email": "Aandvwelding@gmail.com",
+    "passwordHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "passwordSalt": "salt123albert",
+    "name": "Albert",
+    "role": "owner",
+    "userId": "973287"
+  },
+  {
+    "id": 56,
+    "email": "Hurricaneerin2@Gmail.com",
+    "passwordHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+    "passwordSalt": "salt123erin",
+    "name": "Erin",
+    "role": "owner",
+    "userId": "974621"
+  },
+  {
+    "id": 57,
+    "email": "TylerWheatley27@yahoo.com",
+    "passwordHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "passwordSalt": "salt123tyler",
+    "name": "Tyler",
+    "role": "owner",
+    "userId": "974623"
+  },
+  {
+    "id": 58,
+    "email": "kaypatterson600@gmail.com",
+    "passwordHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "passwordSalt": "salt123cassandra",
+    "name": "Cassandra \"Kay\" Patterson",
+    "role": "owner",
+    "userId": "974834"
+  },
+  {
+    "id": 59,
+    "email": "isaurav.garg@gmail.com",
+    "passwordHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+    "passwordSalt": "salt123abhey",
+    "name": "Abhey",
+    "role": "owner",
+    "userId": "975006"
+  },
+  {
+    "id": 60,
+    "email": "jeyrell.luxurylodging@gmail.com",
+    "passwordHash": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+    "passwordSalt": "salt123jeyrell",
+    "name": "Jeyrell Cabatino",
+    "role": "admin",
+    "userId": "975143"
+  },
+  {
+    "id": 61,
+    "email": "Jackwilliamsoncr@gmail.com",
+    "passwordHash": "19581e27de7ced00ff1ce50b2047e7a567c76b1cbaebabe5ef03f7c3017bb5b7",
+    "passwordSalt": "salt123john",
+    "name": "John",
+    "role": "owner",
+    "userId": "976144"
+  },
+  {
+    "id": 62,
+    "email": "Micacng@gmail.com",
+    "passwordHash": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+    "passwordSalt": "salt123mica",
+    "name": "Mica",
+    "role": "owner",
+    "userId": "977984"
+  },
+  {
+    "id": 63,
+    "email": "yari.fuentes@yahoo.com",
+    "passwordHash": "c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646",
+    "passwordSalt": "salt123yari",
+    "name": "Yari",
+    "role": "owner",
+    "userId": "977990"
+  },
+  {
+    "id": 64,
+    "email": "walkingbyfaithaz@gmail.com",
+    "passwordHash": "4ec9599fc203d176a301536c2e091a19bc852759b255bd6818810a42c5fed14a",
+    "passwordSalt": "salt123natalie",
+    "name": "Natalie",
+    "role": "owner",
+    "userId": "978224"
+  },
+  {
+    "id": 65,
+    "email": "sabezoski@yahoo.com",
+    "passwordHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "passwordSalt": "salt123sharon",
+    "name": "Sharon",
+    "role": "owner",
+    "userId": "978456"
+  },
+  {
+    "id": 66,
+    "email": "Lucy.esquer@gmail.com",
+    "passwordHash": "07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb64",
+    "passwordSalt": "salt123lucia",
+    "name": "Lucia Garcia",
+    "role": "owner",
+    "userId": "979811"
+  },
+  {
+    "id": 67,
+    "email": "meganmcfadden25@gmail.com",
+    "passwordHash": "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+    "passwordSalt": "salt123megan",
+    "name": "Megan",
+    "role": "owner",
+    "userId": "980608"
+  },
+  {
+    "id": 68,
+    "email": "angelica@luxurylodgingpm.com",
+    "passwordHash": "3fdba35f04dc8c462986c992bcf875546257113072a909c162f7e470e581e278",
+    "passwordSalt": "salt123angelica",
+    "name": "Angelica Chua",
+    "role": "admin",
+    "userId": "981136"
+  },
+  {
+    "id": 69,
+    "email": "dsalas7763@gmail.com",
+    "passwordHash": "8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61",
+    "passwordSalt": "salt123daniel2",
+    "name": "Daniel",
+    "role": "owner",
+    "userId": "981675"
+  },
+  {
+    "id": 70,
+    "email": "jaliaga25@gmail.com",
+    "passwordHash": "e629fa6598d732768f7c726b4b621285f9c3b85303900aa912017db7617d8bdb",
+    "passwordSalt": "salt123jaime",
+    "name": "Jaime",
+    "role": "owner",
+    "userId": "981676"
+  },
+  {
+    "id": 71,
+    "email": "Jonarvel90@gmail.com",
+    "passwordHash": "b0e869f9707a0ceb019795875f44b12d3447d855e093d08a127357bfce2b5f5c",
+    "passwordSalt": "salt123johnny",
+    "name": "Johnny",
+    "role": "owner",
+    "userId": "982167"
+  },
+  {
+    "id": 72,
+    "email": "jaysonrey.luxurylodging@gmail.com",
+    "passwordHash": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+    "passwordSalt": "salt123jaysonrey",
+    "name": "Jaysonrey Olaivar",
+    "role": "admin",
+    "userId": "982181"
+  },
+  {
+    "id": 73,
+    "email": "Jieza.luxurylodging@gmail.com",
+    "passwordHash": "3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d",
+    "passwordSalt": "salt123jieza",
+    "name": "Jieza Superales",
+    "role": "admin",
+    "userId": "982184"
+  },
+  {
+    "id": 74,
+    "email": "iirusibayan@gmail.com",
+    "passwordHash": "2e7d2c03a9507ae265ecf5b5356885a53393a2029d241394997265a1a25aefc6",
+    "passwordSalt": "salt123ru",
+    "name": "Ru Sibayan",
+    "role": "owner",
+    "userId": "982452"
+  },
+  {
+    "id": 75,
+    "email": "operations@luxurylodgingpm.com",
+    "passwordHash": "18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4",
+    "passwordSalt": "salt123operations",
+    "name": "Operations Luxury Lodging",
+    "role": "owner",
+    "userId": "982989"
+  },
+  {
+    "id": 76,
+    "email": "ssjapa@hotmail.com",
+    "passwordHash": "d3751d33f9cd5049c4af2b462735457e4d3baf130bcbb87f389e349fbaeb20b9",
+    "passwordSalt": "salt123sudhakar",
+    "name": "Sudhakar",
+    "role": "owner",
+    "userId": "983314"
+  },
+  {
+    "id": 77,
+    "email": "Intentionalexperiencellc@gmail.com",
+    "passwordHash": "fc1200c7a7aa52109d762a9f005b149abef01479a64be831f5703b72c7f5a98a",
+    "passwordSalt": "salt123cora",
+    "name": "Cora Kuruoglu",
+    "role": "owner",
+    "userId": "985456"
+  },
+  {
+    "id": 78,
+    "email": "saguilarmendozad@gmail.com",
+    "passwordHash": "4672d8a3f36def0b5b163c7c6a1e0ccbf8e3201d2abd4da7d7d3b52102a2ccc9",
+    "passwordSalt": "salt123carolina",
+    "name": "Carolina Mendoza",
+    "role": "owner",
+    "userId": "985465"
+  },
+  {
+    "id": 79,
+    "email": "Gregvallejos69@gmail.com",
+    "passwordHash": "b9c950640e1b3740e98acb93e669c65766f6670dd1609ba91ff41052ba48c6f3",
+    "passwordSalt": "salt123gregory",
+    "name": "Gregory Vallejos",
+    "role": "owner",
+    "userId": "988773"
+  },
+  {
+    "id": 80,
+    "email": "Sworden40@aol.com",
+    "passwordHash": "a5bec56a2866c11989f6d9fae994fbc0921d2d01ef233a83b0fa5db36b59fd3b",
+    "passwordSalt": "salt123scott",
+    "name": "Scott Worden",
+    "role": "owner",
+    "userId": "988791"
+  },
+  {
+    "id": 81,
+    "email": "juliemaemagill@gmail.com",
+    "passwordHash": "44c4c69a54f58c6998cd44d6a0b3d0cc8dc35283e18cf6901a64a0da38e5b0f1",
+    "passwordSalt": "salt123julie",
+    "name": "Julie Magill",
+    "role": "owner",
+    "userId": "988794"
+  },
+  {
+    "id": 82,
+    "email": "lmrcpropman.cleaning@gmail.com",
+    "passwordHash": "0f1e9c8bf4de7d0adbb6151545628243e8856a9af4528e0455a3c311b2d7c196",
+    "passwordSalt": "salt123ana2",
+    "name": "Ana",
+    "role": "owner",
+    "userId": "989401"
+  },
+  {
+    "id": 83,
+    "email": "artvegas@cox.net",
+    "passwordHash": "b295d117135a9763da282e7dae73a5ca7d3e5b13cc7f1dcf37f9a37795f8c80c",
+    "passwordSalt": "salt123arthur",
+    "name": "Arthur",
+    "role": "owner",
+    "userId": "989429"
+  },
+{
+"id": 84,
+"email": "hildaburklow@yahoo.com",
+"passwordHash": "2d8c2f6d978ca21712b5f6de36c9d31fa8e96a4fa5d8ff8b0188dfb9e7c171bb",
+"passwordSalt": "salt123hilda",
+"name": "Hilda Burklow",
+"role": "owner",
+"userId": "989430"
+},
+{
+  "id": 83,
+  "email": "artvegas@cox.net",
+  "passwordHash": "b295d117135a9763da282e7dae73a5ca7d3e5b13cc7f1dcf37f9a37795f8c80c",
+  "passwordSalt": "salt123arthur",
+  "name": "Arthur",
+  "role": "owner",
+  "userId": "989429"
+},
+{
+  "id": 84,
+  "email": "hildaburklow@yahoo.com",
+  "passwordHash": "2d8c2f6d978ca21712b5f6de36c9d31fa8e96a4fa5d8ff8b0188dfb9e7c171bb",
+  "passwordSalt": "salt123hilda",
+  "name": "Hilda Burklow",
+  "role": "owner",
+  "userId": "989430"
+},
+{
+  "id": 85,
+  "email": "paulc.luxurylodging@gmail.com",
+  "passwordHash": "e56c648af45d87f2b2da18088703e03c3f38df3c1f51f83ea5eae1e2b2a3c46f",
+  "passwordSalt": "salt123paul",
+  "name": "Paul Castillo",
+  "role": "admin",
+  "userId": "990004"
+},
+{
+  "id": 86,
+  "email": "debbie100millas@gmail.com",
+  "passwordHash": "02aa629c8b16cd17a44f3a0efec2feed43937abc79c6d46bd6b0b15a463e8a4c",
+  "passwordSalt": "salt123debbie",
+  "name": "Debbie",
+  "role": "owner",
+  "userId": "990183"
+},
+{
+  "id": 87,
+  "email": "Josetorresprs@gmail.com",
+  "passwordHash": "ffd7a9e5ebca9c2941d6d486c6a0aac06b4588b8ec8cddc03e3e25d8c59a7a62",
+  "passwordSalt": "salt123jose",
+  "name": "Jose Torres",
+  "role": "owner",
+  "userId": "990189"
+},
+{
+  "id": 88,
+  "email": "eddyyounghustler@gmail.com",
+  "passwordHash": "0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c",
+  "passwordSalt": "salt123eddy",
+  "name": "Eddy",
+  "role": "owner",
+  "userId": "990207"
+},
+{
+  "id": 89,
+  "email": "kienoconnell@icloud.com",
+  "passwordHash": "87d9bb400f0e3aa4499158c877b568bd5308b0e5f18b36e7f679f5161b45dd9d",
+  "passwordSalt": "salt123kie",
+  "name": "Kie",
+  "role": "owner",
+  "userId": "990214"
+},
+{
+  "id": 90,
+  "email": "yashwant.saran@gmail.com",
+  "passwordHash": "82e35a63ceba37e9bd10cfb2e7322ae886d35c4f0e2d3b152927a61b3fa457ec",
+  "passwordSalt": "salt123yashwant",
+  "name": "Yashwant Saran",
+  "role": "owner",
+  "userId": "990425"
+},
+{
+  "id": 91,
+  "email": "beewilliams4@yahoo.com",
+  "passwordHash": "cb4e5208b4cd87268b208e49452ed6e89a68e0aba64468c25833c0ef77cc6789",
+  "passwordSalt": "salt123bee",
+  "name": "Bee Williams",
+  "role": "owner",
+  "userId": "990455"
+},
+{
+  "id": 92,
+  "email": "Tavis_phelps@yahoo.com",
+  "passwordHash": "74c70984f592d8d93f03f34e4ca04deb9c9e3cbcc587bf6397983a1c3979baab",
+  "passwordSalt": "salt123tavis",
+  "name": "Tavis",
+  "role": "owner",
+  "userId": "990470"
+},
+{
+  "id": 93,
+  "email": "Frnk20@gmail.com",
+  "passwordHash": "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3e8a485bae28f71b6df4df348",
+  "passwordSalt": "salt123frank",
+  "name": "Frank Jordan",
+  "role": "owner",
+  "userId": "990477"
+},
+{
+  "id": 94,
+  "email": "dantavick@gmail.com",
+  "passwordHash": "109f4b3c50d7b0df729d299bc6f8e9ef9066971f8da58bc172cd0c54e93b9f3b",
+  "passwordSalt": "salt123dan",
+  "name": "Dan Tavick",
+  "role": "owner",
+  "userId": "990494"
+}]

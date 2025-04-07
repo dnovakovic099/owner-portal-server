@@ -143,34 +143,72 @@ router.use(authenticateToken);
 // API route handlers for different endpoints
 router.get('/listings', async (req, res, next) => {
   console.log({ req: req.user, query: req.query });
-  // const data1 = await makeApiRequest('GET', '/users', req.query, null, req.user);
-  // console.log({data1: data1.result})
+  
+  // If there's no user, return an empty result immediately
+  if (!req.user || !req.user.userId) {
+    console.log('No user found, returning empty listings');
+    return res.json({
+      result: {
+        listings: []
+      }
+    });
+  }
+  
   try {
-    const data = await makeApiRequest('GET', '/listings', req.query, null, req.user);
-    res.json(data);
-  } catch (error) {
-    // Using sample data as fallback
-    console.warn('Falling back to sample data for listings:', error.message);
+    // First, get all listings
+    const listingsData = await makeApiRequest('GET', '/listings', req.query, null, req.user);
+    
+    // Get the user's specific data including listingMapIds
     try {
-      // Load sample data (assuming it's defined elsewhere)
-      const sampleData = require('../../src/sampleData').properties || [];
+      const userData = await makeApiRequest('GET', `/user/${req.user.userId}`, {}, null);
+      console.log(`User data fetched for userId: ${req.user.userId}`, 
+                 userData.result && userData.result.listingMapIds ? 
+                 `Found ${userData.result.listingMapIds.length} listings` : 
+                 'No listings found');
       
-      res.json({
+      // If user exists and has listingMapIds
+      if (userData && userData.result && userData.result.listingMapIds) {
+        const userListingIds = userData.result.listingMapIds;
+        
+        // Filter the listings to only include those in the user's listingMapIds
+        const filteredListings = listingsData.result.listings.filter(listing => 
+          userListingIds.includes(listing.id)
+        );
+        
+        console.log(`Filtered listings from ${listingsData.result.listings.length} to ${filteredListings.length}`);
+        
+        // Return the filtered listings
+        return res.json({
+          result: {
+            listings: filteredListings
+          }
+        });
+      } else {
+        // User exists but has no listings
+        console.log('User exists but has no listings');
+        return res.json({
+          result: {
+            listings: []
+          }
+        });
+      }
+    } catch (userError) {
+      console.error('Error fetching user data:', userError.message);
+      // If we can't fetch user data, return empty listings
+      return res.json({
         result: {
-          listings: sampleData.map(prop => ({
-            id: prop.id,
-            name: prop.name,
-            address: {
-              full: prop.address,
-              city: prop.address?.split(',')[1]?.trim() || '',
-              country: prop.address?.split(',')[2]?.trim() || ''
-            }
-          }))
+          listings: []
         }
       });
-    } catch (fallbackError) {
-      next(error); // If fallback fails, use the original error
     }
+  } catch (error) {
+    console.warn('Error fetching listings:', error.message);
+    // Return empty listings instead of sample data
+    res.json({
+      result: {
+        listings: []
+      }
+    });
   }
 });
 
