@@ -161,6 +161,7 @@ router.get('/listings', async (req, res, next) => {
     // Get the user's specific data including listingMapIds
     try {
       const userData = await makeApiRequest('GET', `/user/${req.user.userId}`, {}, null);
+      console.log({userData})
       console.log(`User data fetched for userId: ${req.user.userId}`, 
                  userData.result && userData.result.listingMapIds ? 
                  `Found ${userData.result.listingMapIds.length} listings` : 
