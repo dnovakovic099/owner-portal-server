@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const apiRoutes = require('./routes/api');
 const authRoutes = require('./routes/auth');
+const fs = require('fs');
 
 // Load environment variables
 dotenv.config();
@@ -25,6 +26,16 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'build')));
+
+// Create a simple index.html if it doesn't exist (for API-only server)
+const buildDir = path.join(__dirname, 'build');
+const indexHtml = path.join(buildDir, 'index.html');
+if (!fs.existsSync(buildDir)) {
+  fs.mkdirSync(buildDir, { recursive: true });
+}
+if (!fs.existsSync(indexHtml)) {
+  fs.writeFileSync(indexHtml, '<!DOCTYPE html><html><head><title>Owner Portal API</title></head><body><h1>Owner Portal API Server</h1><p>API is running. Frontend is not built.</p></body></html>');
+}
 
 // Request logging middleware
 app.use((req, res, next) => {

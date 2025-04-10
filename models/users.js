@@ -78,6 +78,7 @@ const verifyPassword = (user, password) => {
  */
 const authenticate = async (email, password) => {
   const user = await findByEmail(email);
+  console.log({ email, user })
   
 //   if (!user || !verifyPassword(user, password)) {
 //     return null;
