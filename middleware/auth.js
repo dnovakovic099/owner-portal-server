@@ -124,5 +124,6 @@ const verifySession = async (req, res, next) => {
 module.exports = {
   generateToken,
   authenticateToken,
-  requireRole
+  requireRole,
+  verifySession
 };
