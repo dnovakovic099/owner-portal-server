@@ -95,6 +95,32 @@ const requireRole = (roles) => {
   };
 };
 
+const verifySession = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      console.warn(`{Api:${req.url}, Message:"Authorization header missing"}`);
+      return res.status(401).json({ success: false, message: "Authorization header missing" });
+    }
+
+    const parts = authHeader.split(" ");
+
+    if (parts.length !== 2 || parts[0] !== "Bearer") {
+      console.warn(`{Api:${req.url}, Message:"Invalid Authorization header format"}`);
+      return res.status(401).json({ success: false, message: "Invalid Authorization header format" });
+    }
+
+    const token = parts[1];
+    const { userId, email, name } = jwt.verify(token);
+    req.user = { userId, email, name };
+    next();
+  } catch (error) {
+    console.error(`{Api:${req.url}, Error:${error} }`);
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+}
+
 module.exports = {
   generateToken,
   authenticateToken,
