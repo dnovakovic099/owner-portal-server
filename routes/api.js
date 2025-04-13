@@ -152,13 +152,13 @@ router.get('/listings', async (req, res, next) => {
   try {
     const data = await makeApiRequest('GET', '/listings', req.query, null, req.user);
 
-    if (req.user.email != 'dnovakovic21@gmail.com' && data && data.result && data.result.length > 50) {
-      return res.json({
-        result: {
-          listings: []
-        }
-      });
-    }
+    // if (req.user.email != 'dnovakovic21@gmail.com' && data && data.result && data.result.length > 50) {
+    //   return res.json({
+    //     result: {
+    //       listings: []
+    //     }
+    //   });
+    // }
 
     res.json(data);
   } catch (error) {

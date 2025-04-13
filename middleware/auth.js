@@ -8,7 +8,7 @@ const path = require('path');
 const Users = require(path.join(__dirname, '../models/users'));
 
 // JWT secret key (in a real app, store this in an environment variable)
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-for-jwt-dev-only';
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = '24h'; // Token expiration time
 
 /**
@@ -35,44 +35,44 @@ const generateToken = (user) => {
  * @param {Response} res - Express response object
  * @param {Function} next - Express next middleware function
  */
-const authenticateToken = (req, res, next) => {
-  // Get token from Authorization header
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // "Bearer TOKEN"
+// const authenticateToken = (req, res, next) => {
+//   // Get token from Authorization header
+//   const authHeader = req.headers['authorization'];
+//   const token = authHeader && authHeader.split(' ')[1]; // "Bearer TOKEN"
   
-  if (!token) {
-    return res.status(401).json({ error: { message: 'Authentication required' } });
-  }
+//   if (!token) {
+//     return res.status(401).json({ error: { message: 'Authentication required' } });
+//   }
   
-  try {
-    // Verify token
-    const decoded = jwt.verify(token, JWT_SECRET);
+//   try {
+//     // Verify token
+//     const decoded = jwt.verify(token, JWT_SECRET);
     
-    // Find user by ID
-    Users.findById(decoded.userId)
-      .then(user => {
-        if (!user) {
-          return res.status(401).json({ error: { message: 'Invalid user' } });
-        }
+//     // Find user by ID
+//     Users.findById(decoded.userId)
+//       .then(user => {
+//         if (!user) {
+//           return res.status(401).json({ error: { message: 'Invalid user' } });
+//         }
         
-        // Attach user to request
-        req.user = user;
-        next();
-      })
-      .catch(error => {
-        console.error('User lookup error:', error);
-        return res.status(500).json({ error: { message: 'Server error' } });
-      });
-  } catch (error) {
-    console.error('Token verification error:', error);
+//         // Attach user to request
+//         req.user = user;
+//         next();
+//       })
+//       .catch(error => {
+//         console.error('User lookup error:', error);
+//         return res.status(500).json({ error: { message: 'Server error' } });
+//       });
+//   } catch (error) {
+//     console.error('Token verification error:', error);
     
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ error: { message: 'Token expired' } });
-    }
+//     if (error.name === 'TokenExpiredError') {
+//       return res.status(401).json({ error: { message: 'Token expired' } });
+//     }
     
-    return res.status(401).json({ error: { message: 'Invalid token' } });
-  }
-};
+//     return res.status(401).json({ error: { message: 'Invalid token' } });
+//   }
+// };
 
 /**
  * Check if user has required role
@@ -95,7 +95,7 @@ const requireRole = (roles) => {
   };
 };
 
-const verifySession = async (req, res, next) => {
+const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -112,7 +112,7 @@ const verifySession = async (req, res, next) => {
     }
 
     const token = parts[1];
-    const { userId, email, name } = jwt.verify(token);
+    const { userId, email, name } = jwt.verify(token, process.env.JWT_SECRET);
     req.user = { userId, email, name };
     next();
   } catch (error) {
@@ -125,5 +125,5 @@ module.exports = {
   generateToken,
   authenticateToken,
   requireRole,
-  verifySession
+  // verifySession
 };
