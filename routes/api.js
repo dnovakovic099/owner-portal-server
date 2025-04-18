@@ -79,10 +79,6 @@ async function makeApiRequest(method, endpoint, queryParams = {}, data = null, u
     // Build the URL with query params
     let queryString = Object.keys(queryParams).length ? 
     '?' + new URLSearchParams(queryParams).toString() : '';
-
-    if (user) {
-      queryString = queryString != '' ? `${queryString}&userId=${user.userId}` : `?userId=${user.userId}`;
-    }
     
     const url = `${HOSTAWAY_BASE_URL}${endpoint}${queryString}`;
     console.log(`Making API request: ${method} ${url} ${user}`);
