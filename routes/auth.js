@@ -40,10 +40,13 @@ router.post('/login', async (req, res) => {
       name: `${user.firstName} ${user.lastName}`
     };
 
+    const userObj = user;
+    userObj.password = undefined;
+
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
     return res.status(200).json({
-      accessToken: token,
-      revenueSharing: user.revenueSharing
+      user: userObj,
+      token,
     })
 
   } catch (error) {
