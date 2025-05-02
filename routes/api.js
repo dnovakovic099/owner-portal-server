@@ -8,9 +8,12 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
 const HostawayUser = require("../models/HostawayUser");
+const MobileUser = require("../models/MobileUser");
+const PartnershipInfo = require("../models/PartnershipInfo");
 const { AppDataSource } = require('../config/database');
 const { sendNotificationToUser } = require('../utils/notification');
 const formatCurrency = require('../utils/formatCurrency');
+const { In } = require('typeorm');
 
 
 // Hostaway API configuration
@@ -1120,6 +1123,25 @@ router.post('/new-reservation', async (request, response, next) => {
   }
 })
 
+router.get("/getpartnershipinfo", authenticateToken, async (request, response, next) => {
+  try {
+    const userId = request.user.userId;
+
+    const partnershipInfo = await getPartnershipInfo(userId);
+
+    response.status(200).json({
+      success: true,
+      data: partnershipInfo
+    });
+  } catch (error) {
+    console.error(`{Api:${request.url}, Error: ${error} }`);
+    return response.status(500).json({
+      status: false,
+      message: `Something went wrong fetching partnership info`
+    });
+  }
+})
+
 // Helper Functions
 
 // Filter reservations helper
@@ -1206,6 +1228,30 @@ async function processNewReservation(reservation) {
 
   await sendNotificationToUser(userIds, payload);
   return;
+}
+
+async function getPartnershipInfo(userId) {
+  const mobileUserRepository = AppDataSource.getRepository(MobileUser);
+  const mobileUser = await mobileUserRepository.findOne({ where: { id: userId } });
+  if (!mobileUser) {
+    console.log(`Mobile user not found with userId: ${userId}`);
+    return null;
+  }
+
+  const data = await makeApiRequest('GET', '/listings', { userId: mobileUser.hostawayId }, null, null);
+  if (!data) {
+    console.log(`No listing fetched from hostaway for the userId: ${mobileUser.hostawayId}`);
+    return null;
+  }
+  const listings = data.result.map((listing) => listing.id);
+
+  const partnershipInfoRepo = AppDataSource.getRepository(PartnershipInfo);
+  return await partnershipInfoRepo.find({
+    where: {
+      listingId: In(listings)
+    },
+    // select: ["listingId", "totalEarned", "pendingCommission", "activeReferral", "yearlyProjection"]
+  });
 }
 
 module.exports = router;
