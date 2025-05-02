@@ -7,6 +7,11 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
+const HostawayUser = require("../models/HostawayUser");
+const { AppDataSource } = require('../config/database');
+const { sendNotificationToUser } = require('../utils/notification');
+const formatCurrency = require('../utils/formatCurrency');
+
 
 // Hostaway API configuration
 const HOSTAWAY_BASE_URL = 'https://api.hostaway.com/v1';
@@ -140,10 +145,10 @@ async function makeApiRequest(method, endpoint, queryParams = {}, data = null, u
 }
 
 // Middleware to protect all API routes
-router.use(authenticateToken);
+// router.use(authenticateToken);
 
 // API route handlers for different endpoints
-router.get('/listings', async (req, res, next) => {
+router.get('/listings', authenticateToken, async (req, res, next) => {
   // const data1 = await makeApiRequest('GET', '/users', req.query, null, req.user);
   try {
     const data = await makeApiRequest('GET', '/listings', req.query, null, req.user);
@@ -184,7 +189,7 @@ router.get('/listings', async (req, res, next) => {
 });
 
 // Get a single listing
-router.get('/listings/:id', async (req, res, next) => {
+router.get('/listings/:id', authenticateToken, async (req, res, next) => {
   try {
     const data = await makeApiRequest('GET', `/listings/${req.params.id}`);
     res.json(data);
@@ -208,7 +213,7 @@ router.get('/listings/:id', async (req, res, next) => {
 });
 
 // Get reservations
-router.get('/reservations', async (req, res, next) => {
+router.get('/reservations', authenticateToken, async (req, res, next) => {
   try {
     const data = await makeApiRequest('GET', '/reservations', req.query);
     res.json(data);
@@ -261,7 +266,7 @@ router.get('/reservations', async (req, res, next) => {
 });
 
 // Get a single reservation
-router.get('/reservations/:id', async (req, res, next) => {
+router.get('/reservations/:id', authenticateToken, async (req, res, next) => {
   try {
     const data = await makeApiRequest('GET', `/reservations/${req.params.id}`);
     res.json(data);
@@ -302,7 +307,7 @@ router.get('/reservations/:id', async (req, res, next) => {
 });
 
 // Get calendar data
-router.get('/calendar', async (req, res, next) => {
+router.get('/calendar', authenticateToken, async (req, res, next) => {
   const { listingId, startDate, endDate } = req.query;
   
   if (!listingId || !startDate || !endDate) {
@@ -323,7 +328,7 @@ router.get('/calendar', async (req, res, next) => {
 /**
  * Get consolidated financial report
  */
-router.post('/finance/report/consolidated', async (req, res, next) => {
+router.post('/finance/report/consolidated', authenticateToken, async (req, res, next) => {
   try {
     // Extract parameters from request body
     const { 
@@ -378,7 +383,7 @@ router.post('/finance/report/consolidated', async (req, res, next) => {
   }
 });
 
-router.post('/finance/report/listingFinancials', async (req, res, next) => {
+router.post('/finance/report/listingFinancials', authenticateToken, async (req, res, next) => {
   try {
     // Extract parameters from request body
     const { 
@@ -437,7 +442,7 @@ router.post('/finance/report/listingFinancials', async (req, res, next) => {
  * Get income estimate from Airdna
  * This endpoint scrapes Airdna.co to get income estimates for a property
  */
-router.get('/income-estimate', async (req, res, next) => {
+router.get('/income-estimate', authenticateToken, async (req, res, next) => {
   // Get query parameters: address, bedrooms, bathrooms, accommodates
   const { address, city, state, zipCode, bedrooms, bathrooms, accommodates } = req.query;
   
@@ -1092,6 +1097,29 @@ router.get('/income-estimate', async (req, res, next) => {
   }
 });
 
+router.post('/new-reservation', async (request, response, next) => {
+  try {
+    const source = request.headers['x-internal-source'];
+    if (source !== 'securestay.ai') {
+      console.error(`[processNewReservation] Invalid source: ${source}`);
+      return response.status(403).json({ status: false, message: "Forbidden" });
+    }
+
+    await processNewReservation(request.body);
+
+    response.status(200).json({
+      success: true,
+      message: 'Handled new reservation for push notification'
+    });
+  } catch (error) {
+    console.error(`{Api:${request.url}, Error: ${error} }`);
+    return response.status(500).json({
+      status: false,
+      message: `Something went wrong processing reservation ${request.body?.id}`
+    });
+  }
+})
+
 // Helper Functions
 
 // Filter reservations helper
@@ -1150,6 +1178,34 @@ function calculateNights(checkIn, checkOut) {
   const end = new Date(checkOut);
   const diffTime = Math.abs(end - start);
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
+
+async function processNewReservation(reservation) {
+  const guestName = reservation.guestName;
+  const checkIn = reservation.arrivalDate;
+  const checkOut = reservation.departureDate;
+  const totalPrice = reservation.totalPrice;
+  const guestFirstName = reservation.guestFirstName || reservation.guestName;
+  const listingName = reservation.listingName;
+  const listingMapId = reservation.listingMapId;
+
+  const payload = {
+    title: `🎉 New Booking: ${formatCurrency(totalPrice)} Earned!`,
+    body: `${guestFirstName} booked ${listingName} from ${checkIn} to ${checkOut}. Tap to view details!`
+  };
+
+  // find the user that needs to be notified
+  const hostawayUserRepo = AppDataSource.getRepository(HostawayUser);
+  const hostawayUsers = await hostawayUserRepo.find({ where: { listingId: listingMapId } });
+  if (!hostawayUsers || hostawayUsers.length == 0) {
+    console.log(`[processNewReservation] No hostaway user found for the listingMapId:${listingMapId}`);
+    return;
+  }
+
+  const userIds = hostawayUsers.map(user => user.ha_userId);
+
+  await sendNotificationToUser(userIds, payload);
+  return;
 }
 
 module.exports = router;

@@ -9,14 +9,19 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "bcryptjs": "^3.0.2",
     "cheerio": "^1.0.0",
     "concurrently": "^9.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.21.2",
+    "firebase-admin": "^13.3.0",
     "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.1",
     "node-fetch": "^3.3.2",
-    "puppeteer": "^24.6.0"
+    "puppeteer": "^24.6.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.22"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
