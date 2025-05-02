@@ -112,8 +112,8 @@ const authenticateToken = async (req, res, next) => {
     }
 
     const token = parts[1];
-    const { userId, email, name } = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { userId, email, name };
+    const { userId, email, name, haUserId } = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = { userId, email, name, haUserId };
     next();
   } catch (error) {
     console.error(`{Api:${req.url}, Error:${error} }`);

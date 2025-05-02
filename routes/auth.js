@@ -103,7 +103,7 @@ router.post('/verify', authenticateToken, (req, res) => {
 router.post('/fcm-token', authenticateToken, async (req, res) => {
   try {
     const { token } = req.body;
-    const userId = req.user?.userId;
+    const userId = req.user?.haUserId;
     if (!token) {
       console.error(`Token not found in request`);
       return res.status(400).json({ message: 'Token is required.' });
