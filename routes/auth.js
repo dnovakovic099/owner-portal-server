@@ -41,7 +41,16 @@ router.post('/login', async (req, res) => {
     };
 
     const userObj = user;
+    userObj.userId = user.hostawayId;
+    userObj.name = `${user.firstName} ${user.lastName}`
+    
     userObj.password = undefined;
+    userObj.user_id = undefined;
+    userObj.hostawayId = undefined;
+    userObj.firstName = undefined;
+    userObj.lastName = undefined;
+    userObj.revenueSharing = undefined;
+    userObj.referralCode = undefined;
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY });
     return res.status(200).json({
