@@ -1142,6 +1142,27 @@ router.get("/getpartnershipinfo", authenticateToken, async (request, response, n
   }
 })
 
+router.get("/getreferralcode", authenticateToken, async (request, response, next) => {
+  try {
+    const userId = request.user.userId;
+    const email = request.user.email;
+
+
+    const referralCode = await getReferralCode(userId, email);
+
+    response.status(200).json({
+      success: true,
+      data: referralCode
+    });
+  } catch (error) {
+    console.error(`{Api:${request.url}, Error: ${error} }`);
+    return response.status(500).json({
+      status: false,
+      message: `Something went wrong fetching referral code`
+    });
+  }
+})
+
 // Helper Functions
 
 // Filter reservations helper
@@ -1253,5 +1274,29 @@ async function getPartnershipInfo(userId) {
     // select: ["listingId", "totalEarned", "pendingCommission", "activeReferral", "yearlyProjection"]
   });
 }
+
+async function getReferralCode(userId, email) {
+  const mobileUserRepository = AppDataSource.getRepository(MobileUser);
+  const user = await mobileUserRepository.findOne({ where: { id: userId } });
+  if (!user) {
+    console.error(`User not found with userId:${userId}`);
+    return null;
+  }
+
+  if (!user.referralCode) {
+    const referralCode = generateReferralCode(email);
+    user.referralCode = referralCode;
+    await mobileUserRepository.save(user);
+    return referralCode;
+  }
+  return user?.referralCode;
+}
+
+function generateReferralCode(email) {
+  const emailString = email.split('@')[0];
+  const random5Digit = Math.floor(10000 + Math.random() * 90000);
+  const referralCode = emailString + random5Digit;
+  return referralCode;
+};
 
 module.exports = router;
