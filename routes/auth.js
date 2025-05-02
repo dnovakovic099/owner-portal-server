@@ -37,13 +37,14 @@ router.post('/login', async (req, res) => {
     const payload = {
       userId: user.id,
       email,
-      name: `${user.firstName} ${user.lastName}`
+      name: `${user.firstName} ${user.lastName}`,
+      haUserId: user.hostawayId
     };
 
     const userObj = user;
     userObj.userId = user.hostawayId;
     userObj.name = `${user.firstName} ${user.lastName}`
-    
+
     userObj.password = undefined;
     userObj.user_id = undefined;
     userObj.hostawayId = undefined;
