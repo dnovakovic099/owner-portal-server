@@ -1231,11 +1231,67 @@ async function processNewReservation(reservation) {
   const guestFirstName = reservation.guestFirstName || reservation.guestName;
   const listingName = reservation.listingName;
   const listingMapId = reservation.listingMapId;
+  const reservationId = reservation.id;
+
+  // Get days of week
+  const checkInDate = new Date(checkIn);
+  const checkOutDate = new Date(checkOut);
+  const daysOfWeek = ['Su', 'M', 'Tu', 'W', 'Th', 'F', 'Sa'];
+  const checkInDay = daysOfWeek[checkInDate.getDay()];
+  const checkOutDay = daysOfWeek[checkOutDate.getDay()];
+
+  // Calculate occupancy for the month
+  const startOfMonth = new Date(checkInDate.getFullYear(), checkInDate.getMonth(), 1);
+  const endOfMonth = new Date(checkInDate.getFullYear(), checkInDate.getMonth() + 1, 0);
+  const daysInMonth = endOfMonth.getDate();
+
+  // Get all reservations for this listing in the current month
+  const reservations = await makeApiRequest('GET', '/reservations', {
+    listingId: listingMapId,
+    arrivalStartDate: startOfMonth.toISOString().split('T')[0],
+    departureEndDate: endOfMonth.toISOString().split('T')[0],
+  });
+
+  // Calculate total booked nights in the month
+  let totalBookedNights = 0;
+  if (reservations && reservations.result) {
+    const validStatus = ["new", "modified", "ownerStay"];
+    const validReservations = reservations.result.filter((reservation) => validStatus.includes(reservation.status));
+    totalBookedNights = validReservations.reduce((total, res) => {
+      const resCheckIn = new Date(res.arrivalDate);
+      const resCheckOut = new Date(res.departureDate);
+      const resNights = calculateNights(resCheckIn, resCheckOut);
+      return total + resNights;
+    }, 0);
+  }
+
+  // Calculate occupancy rate
+  const occupancyRate = Math.round((totalBookedNights / daysInMonth) * 100);
+
+  //calculate owner-payout
+  const requestBody = {
+    fromDate: checkIn,
+    toDate: checkOut,
+    listingMapIds: [listingMapId]
+  };
+  const data = await makeApiRequest('POST', '/finance/report/consolidated', {}, requestBody);
+  const financialConsolidatedReportData = data.result.rows.filter(row => row[0] === reservationId);
+  const ownerPayout = financialConsolidatedReportData[0][17];
+
+  // Calculate nights and price per night
+  const nights = calculateNights(checkIn, checkOut);
+  const pricePerNight = Math.round(ownerPayout / nights);
 
   const payload = {
     title: `🎉 New Booking: ${formatCurrency(totalPrice)} Earned!`,
-    body: `${guestFirstName} booked ${listingName} from ${checkIn} to ${checkOut}. Tap to view details!`
+    body: `${guestFirstName} booked ${listingName} `
+      + `from ${checkIn} to ${checkOut} (${checkInDay}-${checkOutDay}). `
+      + `${formatCurrency(pricePerNight)}/night. `
+      + `Current month occupancy: ${occupancyRate}%. `
+      + `Tap to view details!`
   };
+
+  console.log(payload)
 
   // find the user that needs to be notified
   const hostawayUserRepo = AppDataSource.getRepository(HostawayUser);
