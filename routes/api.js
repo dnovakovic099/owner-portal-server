@@ -1163,6 +1163,29 @@ router.get("/getreferralcode", authenticateToken, async (request, response, next
   }
 })
 
+router.post('/new-review', async (request, response, next) => {
+  try {
+    const source = request.headers['x-internal-source'];
+    if (source !== 'securestay.ai') {
+      console.error(`[processNewReview] Invalid source: ${source}`);
+      return response.status(403).json({ status: false, message: "Forbidden" });
+    }
+
+    await processNewReview(request.body);
+
+    response.status(200).json({
+      success: true,
+      message: 'Handled new review for push notification'
+    });
+  } catch (error) {
+    console.error(`{Api:${request.url}, Error: ${error} }`);
+    return response.status(500).json({
+      status: false,
+      message: `Something went wrong processing review ${request.body?.id}`
+    });
+  }
+})
+
 // Helper Functions
 
 // Filter reservations helper
@@ -1354,5 +1377,31 @@ function generateReferralCode(email) {
   const referralCode = emailString + random5Digit;
   return referralCode;
 };
+
+async function processNewReview(reviewObj) {
+  const reviewerName = reviewObj.reviewerName;
+  const listingMapId = reviewObj.listingMapId;
+  const reviewId = reviewObj.reviewId;
+  const rating = reviewObj.rating;
+
+  const payload = {
+    title: `🎉 You have a new review`,
+    body: `${reviewerName} rated their stay ${rating} stars. View their feedback.`
+  };
+
+  console.log(payload);
+
+  // find the user that needs to be notified
+  const hostawayUserRepo = AppDataSource.getRepository(HostawayUser);
+  const hostawayUsers = await hostawayUserRepo.find({ where: { listingId: listingMapId } });
+  if (!hostawayUsers || hostawayUsers.length == 0) {
+    console.log(`[processNewReservation] No hostaway user found for the listingMapId:${listingMapId}`);
+    return;
+  }
+
+  const userIds = hostawayUsers.map(user => user.ha_userId);
+
+  await sendNotificationToUser(userIds, payload);
+}
 
 module.exports = router;
