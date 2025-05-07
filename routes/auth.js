@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
     const user = await mobileUserRepo.findOne({ where: { email } });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.json(401).json({
+      return res.status(401).json({
         status: false,
         message: "Invalid Credentials"
       });
