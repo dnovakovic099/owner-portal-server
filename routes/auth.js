@@ -104,6 +104,7 @@ router.post('/fcm-token', authenticateToken, async (req, res) => {
   try {
     const { token } = req.body;
     const userId = req.user?.haUserId;
+
     if (!token) {
       console.error(`Token not found in request`);
       return res.status(400).json({ message: 'Token is required.' });
@@ -111,21 +112,30 @@ router.post('/fcm-token', authenticateToken, async (req, res) => {
 
     const fcmTokenRepo = AppDataSource.getRepository(FCMToken);
 
-    console.log(`[saveFCMToken] New token received for user ${req.user?.name}`);
+    console.log(`[saveFCMToken] Token received for user ${req.user?.name}`);
     console.log(`[saveFCMToken] Token: ${token}`);
 
-    const fcmToken = fcmTokenRepo.create({
-      token,
-      userId
-    });
+    // Check if token already exists for this user
+    let existingToken = await fcmTokenRepo.findOneBy({ userId });
 
-    await fcmTokenRepo.save(fcmToken);
-    console.log(`[saveFCMToken] Token saved successfully!!!`);
-    res.status(201).json({ message: 'FCM token saved successfully.' });
+    if (existingToken) {
+      // Update the existing token
+      existingToken.token = token;
+      await fcmTokenRepo.save(existingToken);
+      console.log(`[saveFCMToken] Token updated successfully.`);
+    } else {
+      // Create a new token entry
+      const newToken = fcmTokenRepo.create({ token, userId });
+      await fcmTokenRepo.save(newToken);
+      console.log(`[saveFCMToken] Token created successfully.`);
+    }
+
+    res.status(200).json({ message: 'FCM token saved successfully.' });
   } catch (error) {
     console.error('Error saving FCM token:', error);
     res.status(500).json({ message: 'Internal server error.' });
   }
-})
+});
+
 
 module.exports = router;
