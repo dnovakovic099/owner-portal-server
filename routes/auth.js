@@ -11,21 +11,37 @@ const FCMToken = require('../models/FCMToken');
 const Users = require(path.join(__dirname, '../models/users'));
 const { authenticateToken } = require(path.join(__dirname, '../middleware/auth'));
 
+
+
 /**
  * Login route
  * POST /api/auth/login
  */
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  
+
   // Validate input
   if (!email || !password) {
     return res.status(400).json({ error: { message: 'Email and password are required' } });
   }
-  
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isEmail = emailRegex.test(email);
+
+  let firstName = "";
+  let lastName = "";
+  if (!isEmail) {
+    firstName = email.split('.')[0];
+    lastName = email.split('.')[1];
+  }
+
   try {
     const mobileUserRepo = AppDataSource.getRepository(MobileUserEntity);
-    const user = await mobileUserRepo.findOne({ where: { email } });
+    const user = await mobileUserRepo.findOne({
+      where: {
+        ...(isEmail ? { email: email } : { firstName: firstName, lastName: lastName })
+      }
+    });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({
